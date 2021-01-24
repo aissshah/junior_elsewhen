@@ -22,3 +22,8 @@ export const getOrgRepos = (orgName, setRepos) => {
   const url = `${API_BASE}/orgs/${orgName}/repos`;
   return getData(url).then((repos) => setRepos(repos));
 }
+
+export const getRepoContributors = (orgName, repoName, setContributors) => {
+  const url = `${API_BASE}/repos/${orgName}/${repoName}/contributors`;
+  return getData(url).then((contributor) => setContributors(contributor))
+}
