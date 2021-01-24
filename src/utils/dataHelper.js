@@ -8,8 +8,17 @@ const checkResponse = (response) => {
   return response.json();
 };
 
-export const getData = (url) => {
-  return fetch(url).then(checkResponse).catch((err) => {
-    throw new Error(`fetch getData failed ${err}`)
-  });
+export const getData = async (url) => {
+  try {
+    const response = await fetch(url);
+    return checkResponse(response);
+  }
+  catch (err) {
+    throw new Error(`fetch getData failed ${err}`);
+  }
 };
+
+export const getOrgRepos = (orgName, setRepos) => {
+  const url = `${API_BASE}/orgs/${orgName}/repos`;
+  return getData(url).then((repos) => setRepos(repos));
+}
