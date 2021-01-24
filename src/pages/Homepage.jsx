@@ -1,20 +1,14 @@
 import React from 'react';
-import { getData, API_BASE } from './../utils/dataHelper';
+// import { BrowserRouter, Route }
+import { getOrgRepos } from './../utils/dataHelper';
 
 import Table from './../components/Table';
 
 const Homepage = () => {
-  const [orgName, setOrgName] = React.useState('elsewhencode');
+  const [orgName, setOrgName] = React.useState(); //not case-sensitive
   const [reposList, setReposList] = React.useState();
   // const [repoTableContent, setRepoTableContent] = React.useState();
-
   let repoTableContent;
-
-  React.useEffect(() => {
-    const url = `${API_BASE}/orgs/${orgName}/repos`;
-    getData(url).then((repos) => setReposList(repos));
-
-  }, [])
 
   const repoTableHeaders = (
     <tr>
@@ -39,8 +33,15 @@ const Homepage = () => {
 
   return (
     <main>
-      <input type='text' placeholder='Type a Github organisation here...' value={orgName} onChange={(e) => setOrgName(e.target.value)} />
-      <button>Hey Fetcho!</button>
+      {/* made it a form to include enter  */}
+      {/* //TODO if repolist length = 0, organisation does not exist, textbox appear, highlight red */}
+      <form> 
+        <input type='text' id='searchName' placeholder='Type a Github organisation here...' onChange={(e)=>setOrgName(e.target.value)} />
+        <button onClick={(e) => {
+          e.preventDefault(); 
+          getOrgRepos(orgName, setReposList)
+          }}>Hey Fetcho!</button>
+      </form>
       <h2>List of {orgName}'s Repositories</h2>
       {reposList ? <Table headers={repoTableHeaders} data={repoTableContent} />:<p>Type in an organisation name into the box above to see results</p>}
     </main>
@@ -49,3 +50,4 @@ const Homepage = () => {
 }
 
 export default Homepage;
+
