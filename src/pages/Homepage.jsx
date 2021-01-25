@@ -1,25 +1,26 @@
 import React from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 
-import { getOrgRepos } from './../utils/dataHelper';
+import { getOrgRepos } from '../utils/getDataFunctions';
 import Table from './../components/Table';
 
 const Homepage = () => {
+  //Variable and state initialisation
   const [orgName, setOrgName] = React.useState(); //not case-sensitive
   const [reposList, setReposList] = React.useState();
   const history = useHistory();
   const location = useLocation();
-  let repoTableContent;
-
+  
+  //ensures if using a shared url, orgName is updated and fetch request runs on initial page load
   React.useEffect(()=> {
     if (!orgName && location.pathname !== '/') {
       const pathname = location.pathname.substring(1, location.pathname.length);
       setOrgName(pathname);
       getOrgRepos(pathname, setReposList)
-    
     }
   },[])
-
+  
+  //Populate table headers and data
   const repoTableHeaders = (
     <tr>
       <th>Repo ID</th>
@@ -28,6 +29,8 @@ const Homepage = () => {
     </tr>
   );
 
+  let repoTableContent;
+  
   if (reposList) {
     repoTableContent = reposList.map((repo) => {
       return (
@@ -41,12 +44,11 @@ const Homepage = () => {
     })
   }
 
+  //clicking the button starts the fetch request and changes the url path to include org name for shareability
   return (
     <main>
       <h1>Fetch GitHub Fetch</h1>
       <p>View an organisation's public GitHub repositories</p>
-      {/* made it a form to include enter  */}
-      {/* //TODO if repolist length = 0, organisation does not exist, textbox appear, highlight red */}
       <form> 
         <input type='text' id='searchName' placeholder='Type a Github organisation here...' value={orgName} onChange={(e)=>setOrgName(e.target.value)} />
         <button onClick={(e) => {
