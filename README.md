@@ -5,6 +5,12 @@ Creating a Single Page Application (SPA) with two screens. This app uses the Git
 
 It consists of the homepage where users can fill in an organisation name to see a list of their public repositories and the contributors page which displays the contributors of a certain GitHub repository. 
 
+## Getting Started
+- Clone or download the repository
+- `cd junior_elsewhen` - move into folder 
+- `npm i` - install dependencies
+- `npm start` - runs the app in development mode on localhost:3000
+
 ## Overall Checklist
 
 - [ ] More interested in how it is made, rather than how it looks
@@ -21,8 +27,3 @@ It consists of the homepage where users can fill in an organisation name to see 
 - add comments while writing or at the very least, before each commit
 - decide on which features from the checklist to include from the start
 
-## Getting Started
-Clone or download the repository
-`cd junior_elsewhen` - move into 
-`npm i` - install dependencies
-`npm start` - runs the app in development mode on localhost:3000
