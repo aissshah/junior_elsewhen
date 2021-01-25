@@ -1,14 +1,21 @@
 import React from 'react';
-// import { BrowserRouter, Route, Link }
-import { getRepoContributors } from '../utils/dataHelper';
+import { useLocation } from 'react-router-dom';
 
+import { getRepoContributors } from '../utils/dataHelper';
 import Table from '../components/Table';
 
-const Contributorspage = ({orgName, repoName}) => {
+const Contributorspage = () => {
   const [contributors, setContributors] = React.useState()
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const organisation = searchParams.get('org');
+  const repository = searchParams.get('repo');
+
   React.useEffect(()=> {
-    getRepoContributors(orgName, repoName, setContributors);
-  }, [repoName])
+    if (organisation) {
+      getRepoContributors(organisation, repository, setContributors);
+    }
+  }, [organisation, repository])
 
   let contributorsTableContent;
 
@@ -34,8 +41,8 @@ const Contributorspage = ({orgName, repoName}) => {
 
   return (
     <main>
-      <h2>List of {repoName}'s Contributors</h2>
-      {contributors ? <Table headers={contributorsTableHeaders} data={contributorsTableContent} />:<p>Type in an organisation name into the box above to see results</p>}
+      <h2>List of {repository}'s Contributors</h2>
+      {contributors ? <Table headers={contributorsTableHeaders} data={contributorsTableContent} />:<p>Loading...</p>}
     </main>
   )
 }
